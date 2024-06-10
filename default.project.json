@@ -1,0 +1,7 @@
+{
+	"name": "react-matter",
+	"globIgnorePaths": ["**/*.spec.lua", "**/*.dev.lua"],
+	"tree": {
+		"$path": "lib"
+	}
+}

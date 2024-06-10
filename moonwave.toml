@@ -1,0 +1,11 @@
+gitSourceBranch = "main"
+
+[docusaurus]
+title = "React-Matter"
+tagline = "An interface between React and Matter"
+
+[home]
+enabled = true
+
+[footer]
+copyright = "Copyright © 2024 Lucas Gangstad. Built with Moonwave and Docusaurus"
