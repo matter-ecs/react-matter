@@ -10,19 +10,23 @@ export type Components = { [string]: Component }
 local components: Components = {}
 local componentsChanged = Signal.new()
 
-local function updateComponents(components: Components)
-	components = components
+local function updateComponents()
 	componentsChanged:Fire(components)
 end
 
 local function insertComponent(key: string, component: Component)
+	assert(not components[key], `Duplicate system component key '{key}'. Keys must be unique.`)
 	components[key] = component
-	updateComponents(components)
+	updateComponents()
 end
 
 local function removeComponent(key: string)
+	assert(
+		components[key],
+		`No system component with key '{key}'. This indicates a duplicate key or a missing component.`
+	)
 	components[key] = nil
-	updateComponents(components)
+	updateComponents()
 end
 
 return {
