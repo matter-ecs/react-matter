@@ -11,10 +11,21 @@ local e = React.createElement
 local useEffect = React.useEffect
 local useState = React.useState
 
-export type Complete<T> = Return.Complete<T>
-export type PreviouslyComplete<T> = Return.PreviouslyComplete<T>
-export type Incomplete = Return.Incomplete
-export type Ready<T> = Return.Ready<T>
+export type Complete<T> = {
+	completed: true,
+	value: T,
+}
+
+export type PreviouslyComplete<T> = {
+	completed: false,
+	value: T,
+}
+
+export type Incomplete = {
+	completed: false,
+}
+
+export type Ready<T> = Complete<T> | PreviouslyComplete<T> | Incomplete
 
 export type Passed<Params, Return> = {
 	params: Params,
