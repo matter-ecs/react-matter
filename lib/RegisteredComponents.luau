@@ -4,7 +4,20 @@ local Packages = Package.Parent
 local React = require(Packages.React)
 local Signal = require(Packages.Signal)
 
+--[=[
+	A React component.
+
+	@type Component ReactComponent<unknown>
+	@within ReactMatter
+]=]
 export type Component = React.ComponentType<unknown>
+
+--[=[
+	A mapping of component keys to components.
+
+	@type Components { [string]: Component }
+	@within ReactMatter
+]=]
 export type Components = { [string]: Component }
 
 local components: Components = {}
