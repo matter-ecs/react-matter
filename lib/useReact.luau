@@ -22,12 +22,16 @@ type Storage<Params, Return> = {
 	signal: typeof(Signal.new())?,
 }
 
-local function cleanup<Params, Return>(storage: Storage<Params, Return>)
+local function clearComponents<Params, Return>(storage: Storage<Params, Return>)
 	if storage.components then
 		for key in storage.components do
 			RegisteredComponents.removeComponent(key)
 		end
 	end
+end
+
+local function cleanup<Params, Return>(storage: Storage<Params, Return>)
+	clearComponents(storage)
 
 	if storage.signal then
 		storage.signal:DisconnectAll()
@@ -42,6 +46,7 @@ local function useReact<Params, Return>(
 	local storage = Matter.useHookState(discriminator, cleanup) :: Storage<Params, Return>
 
 	if diffTables(components, storage.components) then
+		clearComponents(storage)
 		storage.components = components
 
 		if not storage.passed then
@@ -66,11 +71,14 @@ local function useReact<Params, Return>(
 	end
 
 	if diffTables(dependencies, storage.passed.params) then
-		storage.passed.params = dependencies
-
-		storage.passed.ready = {
-			completed = false,
-			value = if storage.ready and storage.ready.completed then storage.ready.value else nil,
+		storage.passed = {
+			params = dependencies,
+			ready = {
+				completed = false,
+				value = if storage.ready and storage.ready.completed
+					then storage.ready.value
+					else nil,
+			},
 		}
 
 		storage.signal:Fire(storage.passed)
